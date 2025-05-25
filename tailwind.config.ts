@@ -17,8 +17,8 @@ const config: Config = {
         navy: "#1D3557",
       },
       fontFamily: {
-        /*sans: ["var(--font-geist-sans)"],
-        mono: ["var(--font-geist-mono)"],*/
+        reddit: ["var(--font-reddit-sans)"],
+        groteske: ["var(--font-groteske)"],
       },
     },
   },
