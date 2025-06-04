@@ -24,7 +24,7 @@ const Header = () => {
             className={`sticky top-0 z-50 transition-all duration-300 ease-in-out ${
                 isScrolling
                     ? 'bg-white opacity-50 py-1 px-4'
-                    : 'bg-white shadow-sm mt-8 mx-32 rounded-4xl'
+                    : 'bg-white shadow-xs mt-8 mx-32 rounded-4xl'
             }`}
         >
             <div className="flex items-center justify-center px-4 py-2 transition-all duration-300">

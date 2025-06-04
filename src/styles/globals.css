@@ -5,9 +5,19 @@
   --foreground: #171717;
 }
 
+@theme {
+  --color-lime: #F1FFC4;
+  --color-skylight: #C6E2E9;
+  --color-periwinkle: #A7BED3;
+  --color-slate: #505A5B;
+  --color-charcoal: #343F3E;
+  --color-navy: #1D3557;
+}
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --font-reddit: var(--font-reddit);
+  --font-groteske: var(--font-groteske);
+  --font-changa: var(--font-changa);
 }
 
 body {
