@@ -29,7 +29,7 @@ const Header = () => {
         >
             <div className="flex items-center justify-center px-4 py-2 transition-all duration-300">
                  {/* Logo */}
-                <Link href="/" className="flex-shrink-0">
+                <Link href="/" className="shrink-0">
                     <div className={`flex items-center justify-center transition-all duration-300 ${
                         isScrolling ? 'w-10 h-10' : 'w-12 h-12'
                     }`}>
