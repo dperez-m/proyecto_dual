@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Reddit_Sans, Space_Grotesk } from "next/font/google";
 import "../styles/globals.css";
 import Image from "next/image";
+import Header from "@components/layout/header";
 
 const redditSans = Reddit_Sans({
     variable: "--font-reddit-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body
         className={`${redditSans.variable} ${groteske.variable} antialiased`}
       >
+      <Header />
       <div className="absolute top-0 left-0 w-full">
           <Image
               src="/bg_img.png"
