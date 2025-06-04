@@ -30,14 +30,14 @@ export default function RootLayout({
         className={`${redditSans.variable} ${groteske.variable} antialiased`}
       >
       <Header />
-      <div className="absolute top-0 left-0 w-full">
+      <div className="absolute top-0 left-0 w-full h-screen -z-10 overflow-hidden">
           <Image
               src="/bg_img.png"
-              alt="Background"
-              width={1920}
-              height={400}
-              className="w-full h-auto object-cover"
+              alt="Background Image"
+              fill
               priority
+              className="object-cover"
+              quality={100}
           />
       </div>
         {children}
