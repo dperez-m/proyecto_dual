@@ -42,7 +42,7 @@ export default function RootLayout({
               alt="Background Image"
               fill
               priority
-              className="object-cover"
+              className="bg-[size:100vw_auto]"
               quality={100}
           />
       </div>
