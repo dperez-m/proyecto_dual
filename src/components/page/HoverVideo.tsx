@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 
 interface HoverVideoProps {
   src: string;
@@ -8,7 +8,7 @@ interface HoverVideoProps {
   className?: string;
 }
 
-const HoverVideo: React.FC<HoverVideoProps> = ({ src, poster, className = '' }) => {
+const HoverVideo: React.FC<HoverVideoProps> = ({ src, poster, className = "" }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleMouseEnter = () => {
