@@ -15,7 +15,7 @@ export default function CompareButtonSecondary({
   return (
     <Link
       href={href}
-      className={`bg-darkBlue text-white font-bold py-3 px-12 rounded-full transition-transform duration-300 ${
+      className={`bg-darkBlue text-white font-groteske font-bold py-3 px-12 rounded-full transition-transform duration-300 ${
         isHovered ? 'scale-110' : ''
       }`}
       onMouseEnter={() => setIsHovered(true)}

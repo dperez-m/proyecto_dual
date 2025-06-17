@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import Logo from "@components/layout/Logo";
 
 const Header = () => {
     const [isScrolling, setIsScrolling] = useState(false);
@@ -33,7 +34,9 @@ const Header = () => {
                     <div className={`flex items-center justify-center transition-all duration-300 ${
                         isScrolling ? 'w-10 h-10' : 'w-12 h-12'
                     }`}>
-                        <span className="font-groteske font-bold text-navy">LOGO</span>
+                        <span className="font-groteske font-bold text-navy">
+                            <Logo />
+                        </span>
                     </div>
                 </Link>
 
