@@ -81,7 +81,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 w-full bg-white rounded-b-2xl shadow-lg">
+        <div className="absolute z-15 w-full bg-white rounded-b-2xl shadow-lg">
           <ul>
             {options.map((option) => (
               <li
