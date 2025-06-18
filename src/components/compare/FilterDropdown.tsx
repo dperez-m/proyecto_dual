@@ -87,7 +87,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
               <li
                 key={option.id}
                 onClick={() => handleOptionClick(option.id)}
-                className={`px-4 py-3 cursor-pointer flex items-center justify-between hover:bg-periwinkle ${selectedOptions.includes(option.id) ? 'bg-blue-100' : ''}`}
+                className={`px-4 py-3 cursor-pointer flex items-center justify-between hover:bg-periwinkle ${selectedOptions.includes(option.id) ? 'bg-blue-100 font-bold' : ''}`}
               >
                 <span className={`${selectedOptions.includes(option.id) ? 'font-reddit' : ''}`}>
                   {option.label}
