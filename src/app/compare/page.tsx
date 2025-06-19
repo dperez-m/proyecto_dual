@@ -17,6 +17,7 @@ export default function ComparePage() {
 
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedCars, setSelectedCars] = useState<Car[]>([]); // Estado para coches seleccionados
 
   // Opciones para los filtros
   const brandOptions = [
@@ -161,6 +162,29 @@ export default function ComparePage() {
   // Función para obtener las etiquetas de texto de los IDs seleccionados
   const getSelectedLabels = (ids: string[], options: { id: string; label: string }[]) => {
     return ids.map((id) => options.find((opt) => opt.id === id)?.label || id);
+  };
+
+  // Función para añadir/eliminar un coche de la selección para comparar
+  const toggleCompare = (car: Car) => {
+    setSelectedCars(prev => {
+      // Si el coche ya está seleccionado, lo eliminamos
+      if (isCarSelected(car.id)) {
+        return prev.filter(c => c.id !== car.id);
+      }
+
+      // Si ya hay 2 coches seleccionados, no permitimos añadir más
+      if (prev.length >= 2) {
+        return prev;
+      }
+
+      // Añadimos el coche a la selección
+      return [...prev, car];
+    });
+  };
+
+  // Helper para verificar si un coche está seleccionado
+  const isCarSelected = (id: string): boolean => {
+    return selectedCars.some(car => car.id === id);
   };
 
   useEffect(() => {
@@ -362,7 +386,12 @@ export default function ComparePage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
             {cars.map((car) => (
-              <CarCard key={car.id} car={car} />
+                <CarCard
+                    key={car.id}
+                    car={car}
+                    isSelected={isCarSelected(car.id)}
+                    onToggleCompare={() => toggleCompare(car)}
+                />
             ))}
           </div>
         )}
