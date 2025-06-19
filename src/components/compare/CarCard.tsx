@@ -5,6 +5,7 @@ import Battery_02 from "@components/compare/icons/Battery_02";
 import Battery_03 from "@components/compare/icons/Battery_03";
 import Battery_04 from "@components/compare/icons/Battery_04";
 import React from "react";
+import Image from 'next/image';
 
 interface Car {
     id: string;
@@ -67,8 +68,8 @@ export default function CarCard({ car }: { car: Car }) {
     const priceRange = getPriceRange(car.price);
 
     return (
-        <div className="relative pt-6 mt-4">
-            <div className="absolute -top-4 left-4 flex gap-2 z-10">
+        <div className="relative pt-7 mt-4 w-full max-w-sm mx-auto opacity-0 motion-safe:animate-[fade-in-up_0.5s_ease-out_forwards]"> {/* Aumentado el padding-top */}
+            <div className="absolute -top-5 left-4 flex gap-2 z-10"> {/* Posición más alta */}
                 <IconBox title={car.brand}>
                     <BrandLogo brand={car.brand} />
                 </IconBox>
@@ -96,14 +97,20 @@ export default function CarCard({ car }: { car: Car }) {
 
             <div className="relative group rounded-2xl shadow-md bg-white overflow-hidden hover:shadow-lg transition-shadow">
 
-                <div className="relative">
-                    <img
-                        src={car.image_url}
+                <div className="pt-8"></div> {/* Espacio blanco arriba (aumentado) */}
+
+                <div className="relative h-48 mx-auto w-11/12"> {/* Ancho reducido para padding lateral */}
+                    <Image
+                        src={`/carImages/${car.image_url}`}
                         alt={`${car.brand} ${car.model} - ${car.category}`}
-                        className="w-full h-48 object-cover"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover rounded-lg" /* Añadido bordes redondeados */
+                        priority={false}
                     />
                 </div>
 
+                <div className="pb-8"></div> {/* Espacio blanco abajo (igual que arriba) */}
 
                 <div className="absolute inset-0 bg-navy/80 opacity-0 group-hover:opacity-100 transition-opacity text-white flex flex-col justify-center items-center text-center px-4 py-6">
                     <h3 className="text-lg font-reddit border-b border-white/30 pb-1 mb-2 w-full">
