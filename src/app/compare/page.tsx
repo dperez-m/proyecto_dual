@@ -30,24 +30,8 @@ export default function ComparePage() {
     const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
     const [selectedTrunks, setSelectedTrunks] = useState<string[]>([]);
 
-    const [cars, setCars] = useState<any[]>([]);
+    const [cars, setCars] = useState<Car[]>([]);
     const [loading, setLoading] = useState(false);
-
-    const buildQueryString = () => {
-        const params = new URLSearchParams();
-
-        selectedBrands.forEach((b) => params.append('brand', b));
-        selectedCategories.forEach((c) => params.append('category', c));
-        selectedPrices.forEach((p) => params.append('price', p));
-        selectedRanges.forEach((r) => params.append('range', r));
-        selectedPowers.forEach((p) => params.append('power', p));
-        selectedSeats.forEach((s) => params.append('seats', s));
-        selectedTrunks.forEach((t) => params.append('trunk', t));
-
-        return params.toString();
-    };
-
-
 
     // Opciones para los filtros
     const brandOptions = [
@@ -207,7 +191,17 @@ export default function ComparePage() {
     useEffect(() => {
         const fetchCars = async () => {
             setLoading(true);
-            const query = buildQueryString();
+            const params = new URLSearchParams();
+
+            selectedBrands.forEach((b) => params.append('brand', b));
+            selectedCategories.forEach((c) => params.append('category', c));
+            selectedPrices.forEach((p) => params.append('price', p));
+            selectedRanges.forEach((r) => params.append('range', r));
+            selectedPowers.forEach((p) => params.append('power', p));
+            selectedSeats.forEach((s) => params.append('seats', s));
+            selectedTrunks.forEach((t) => params.append('trunk', t));
+
+            const query = params.toString();
             const res = await fetch(`/api/cars?${query}`);
             const data = await res.json();
             setCars(data);
@@ -224,6 +218,7 @@ export default function ComparePage() {
         selectedSeats,
         selectedTrunks,
     ]);
+
 
     return (
         <main className="mt-10 mx-25 mb-14">
