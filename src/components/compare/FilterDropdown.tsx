@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { CaretRight, CaretDown } from '@gravity-ui/icons';
+import React, { useState, useRef, useEffect } from "react";
+import { CaretRight, CaretDown } from "@gravity-ui/icons";
 
 interface FilterOption {
   id: string;
@@ -21,7 +21,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
   options,
   selectedOptions,
   onOptionSelect,
-  className = '',
+  className = "",
   multiSelect = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,12 +46,12 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
 
     // Agregar el event listener solo cuando el dropdown está abierto
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     // Cleanup
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
 
@@ -69,9 +69,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
       <button
         onClick={toggleDropdown}
         className={`flex items-center justify-between w-full px-4 py-2 bg-white shadow-sm ${
-          isOpen 
-            ? 'rounded-t-2xl'
-            : 'rounded-full'
+          isOpen ? "rounded-t-2xl" : "rounded-full"
         }`}
       >
         <span className="font-reddit">{getButtonText()}</span>
@@ -85,9 +83,9 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
               <li
                 key={option.id}
                 onClick={() => handleOptionClick(option.id)}
-                className={`px-4 py-3 cursor-pointer flex items-center justify-between hover:bg-periwinkle ${selectedOptions.includes(option.id) ? 'bg-blue-100 font-bold' : ''}`}
+                className={`px-4 py-3 cursor-pointer flex items-center justify-between hover:bg-periwinkle ${selectedOptions.includes(option.id) ? "bg-blue-100 font-bold" : ""}`}
               >
-                <span className={`${selectedOptions.includes(option.id) ? 'font-reddit' : ''}`}>
+                <span className={`${selectedOptions.includes(option.id) ? "font-reddit" : ""}`}>
                   {option.label}
                 </span>
                 {option.colorIndicator && (
