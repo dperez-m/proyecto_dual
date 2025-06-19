@@ -1,54 +1,24 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FilterDropdown from '../../components/compare/FilterDropdown';
 import CarCard from '../../components/compare/CarCard';
 
-// Datos de ejemplo para los coches
-const exampleCars = [
-    {
-        id: "tesla-model-3",
-        brand: "Tesla",
-        model: "Model 3",
-        price: 42990,
-        battery_range: 513,
-        power: 325,
-        category: "Berlina",
-        image_url: "https://www.coches.com/fotos_historicas/tesla/Model-3/high_e45b25fe6a0d64e4f37d0b42c6dd1387.jpg",
-        drivetrain: "AWD",
-        seats: 5,
-        trunk_capacity: 561,
-        fast_charging_power: 250
-    },
-    {
-        id: "volkswagen-id4",
-        brand: "Volkswagen",
-        model: "ID.4",
-        price: 43990,
-        battery_range: 450,
-        power: 204,
-        category: "SUV",
-        image_url: "https://www.coches.com/fotos_historicas/volkswagen/ID.4-Pro-Performance/high_volkswagen_id4-pro-performance-2021_r1.jpg",
-        drivetrain: "RWD",
-        seats: 5,
-        trunk_capacity: 543,
-        fast_charging_power: 135
-    },
-    {
-        id: "hyundai-ioniq5",
-        brand: "Hyundai",
-        model: "IONIQ 5",
-        price: 41990,
-        battery_range: 507,
-        power: 217,
-        category: "Crossover",
-        image_url: "https://www.coches.com/fotos_historicas/hyundai/IONIQ-5/high_hyundai_ioniq-5-2021_r3.jpg",
-        drivetrain: "RWD",
-        seats: 5,
-        trunk_capacity: 527,
-        fast_charging_power: 220
-    }
-];
+interface Car {
+    id: string;
+    brand: string;
+    model: string;
+    price: number;
+    battery_range: number;
+    power: number;
+    category: string;
+    image_url: string;
+    drivetrain?: string;
+    seats?: number;
+    trunk_capacity?: number;
+    fast_charging_power?: number;
+}
+
 
 export default function ComparePage() {
     // Estados para los filtros (ahora como arrays para selección múltiple)
@@ -59,6 +29,24 @@ export default function ComparePage() {
     const [selectedPowers, setSelectedPowers] = useState<string[]>([]);
     const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
     const [selectedTrunks, setSelectedTrunks] = useState<string[]>([]);
+
+    const [cars, setCars] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    const buildQueryString = () => {
+        const params = new URLSearchParams();
+
+        selectedBrands.forEach((b) => params.append('brand', b));
+        selectedCategories.forEach((c) => params.append('category', c));
+        selectedPrices.forEach((p) => params.append('price', p));
+        selectedRanges.forEach((r) => params.append('range', r));
+        selectedPowers.forEach((p) => params.append('power', p));
+        selectedSeats.forEach((s) => params.append('seats', s));
+        selectedTrunks.forEach((t) => params.append('trunk', t));
+
+        return params.toString();
+    };
+
 
 
     // Opciones para los filtros
@@ -77,12 +65,12 @@ export default function ComparePage() {
     ];
 
     const categoryOptions = [
-        { id: 'berlina', label: 'Berlina' },
-        { id: 'suv', label: 'SUV' },
-        { id: 'crossover', label: 'Crossover' },
-        { id: 'compacto', label: 'Compacto' },
-        { id: 'familiar', label: 'Familiar' },
-        { id: 'deportivo', label: 'Deportivo' },
+        { id: 'berlina', label: 'Berlina', colorIndicator: '#3366CC' },
+        { id: 'suv', label: 'SUV', colorIndicator: '#E82127' },
+        { id: 'crossover', label: 'Crossover', colorIndicator: '#FF9900' },
+        { id: 'compacto', label: 'Compacto', colorIndicator: '#33CC33' },
+        { id: 'familiar', label: 'Familiar', colorIndicator: '#9933CC' },
+        { id: 'deportivo', label: 'Deportivo', colorIndicator: '#CC0066' },
     ];
 
     const priceOptions = [
@@ -215,6 +203,27 @@ export default function ComparePage() {
     const getSelectedLabels = (ids: string[], options: { id: string, label: string }[]) => {
         return ids.map(id => options.find(opt => opt.id === id)?.label || id);
     };
+
+    useEffect(() => {
+        const fetchCars = async () => {
+            setLoading(true);
+            const query = buildQueryString();
+            const res = await fetch(`/api/cars?${query}`);
+            const data = await res.json();
+            setCars(data);
+            setLoading(false);
+        };
+
+        fetchCars();
+    }, [
+        selectedBrands,
+        selectedCategories,
+        selectedPrices,
+        selectedRanges,
+        selectedPowers,
+        selectedSeats,
+        selectedTrunks,
+    ]);
 
     return (
         <main className="mt-10 mx-25 mb-14">
@@ -383,6 +392,31 @@ export default function ComparePage() {
                     </div>
                 )}
             </section>
+
+            <section className="mt-10 px-4">
+                {loading ? (
+                    <div className="flex justify-center items-center py-20">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
+                        <span className="ml-3 text-navy font-reddit">Cargando vehículos...</span>
+                    </div>
+                ) : cars.length === 0 ? (
+                    <div className="text-center py-20 bg-skylight/30 rounded-xl">
+                        <h3 className="text-xl font-reddit text-darkBlue">
+                            No se encontraron vehículos
+                        </h3>
+                        <p className="text-slate-600 mt-2">
+                            Prueba a modificar los filtros para ampliar tu búsqueda
+                        </p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
+                        {cars.map((car) => (
+                            <CarCard key={car.id} car={car} />
+                        ))}
+                    </div>
+                )}
+            </section>
+
         </main>
     );
 }
