@@ -52,7 +52,7 @@ export default function CarCard({ car }: { car: Car }) {
   const priceRange = getPriceRange(car.price);
 
   return (
-    <div className="relative pt-7 mt-4 w-full max-w-sm mx-auto opacity-0 motion-safe:animate-[fade-in-up_0.5s_ease-out_forwards]">
+    <div className="relative pt-7 mt-4 w-full max-w-sm mx-auto animate-fade-in-up">
       {" "}
       {/* Aumentado el padding-top */}
       <div className="absolute -top-5 left-4 flex gap-2 z-10">
