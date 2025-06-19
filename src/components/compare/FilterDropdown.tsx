@@ -99,26 +99,6 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
               </li>
             ))}
           </ul>
-          {/*{multiSelect && selectedOptions.length > 0 && (*/}
-          {/*  <div className="px-4 py-2 flex justify-between">*/}
-          {/*    <button*/}
-          {/*      onClick={() => {*/}
-          {/*        // Limpiar todas las selecciones*/}
-          {/*        selectedOptions.forEach(id => onOptionSelect(id));*/}
-          {/*        setIsOpen(false);*/}
-          {/*      }}*/}
-          {/*      className="text-sm text-darkBlue hover:text-navy"*/}
-          {/*    >*/}
-          {/*      Limpiar selección*/}
-          {/*    </button>*/}
-          {/*    <button*/}
-          {/*      onClick={() => setIsOpen(false)}*/}
-          {/*      className="text-sm text-darkBlue hover:text-navy"*/}
-          {/*    >*/}
-          {/*      Aceptar*/}
-          {/*    </button>*/}
-          {/*  </div>*/}
-          {/*)}*/}
         </div>
       )}
     </div>
