@@ -6,21 +6,7 @@ import Battery_03 from "@components/compare/icons/Battery_03";
 import Battery_04 from "@components/compare/icons/Battery_04";
 import React from "react";
 import Image from "next/image";
-
-interface Car {
-  id: string;
-  brand: string;
-  model: string;
-  price: number;
-  battery_range: number;
-  power: number;
-  category: string;
-  image_url: string;
-  drivetrain?: string;
-  seats?: number;
-  trunk_capacity?: number;
-  fast_charging_power?: number;
-}
+import { Car } from '@/types/car';
 
 // Configuración para los tipos de vehículo y sus colores
 const categoryColors: Record<string, string> = {

@@ -3,21 +3,7 @@
 import React, { useState, useEffect } from "react";
 import FilterDropdown from "../../components/compare/FilterDropdown";
 import CarCard from "../../components/compare/CarCard";
-
-interface Car {
-  id: string;
-  brand: string;
-  model: string;
-  price: number;
-  battery_range: number;
-  power: number;
-  category: string;
-  image_url: string;
-  drivetrain?: string;
-  seats?: number;
-  trunk_capacity?: number;
-  fast_charging_power?: number;
-}
+import { Car } from '@/types/car';
 
 export default function ComparePage() {
   // Estados para los filtros (ahora como arrays para selección múltiple)
