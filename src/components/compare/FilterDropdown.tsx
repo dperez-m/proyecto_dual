@@ -59,8 +59,6 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
   const getButtonText = () => {
     if (selectedOptions.length === 0) {
       return label;
-    } else if (selectedOptions.length === 1) {
-      return options.find(opt => opt.id === selectedOptions[0])?.label || label;
     } else {
       return `${label} (${selectedOptions.length})`;
     }
@@ -72,7 +70,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         onClick={toggleDropdown}
         className={`flex items-center justify-between w-full px-4 py-2 bg-white shadow-sm ${
           isOpen 
-            ? 'rounded-t-2xl' 
+            ? 'rounded-t-2xl'
             : 'rounded-full'
         }`}
       >
@@ -101,26 +99,26 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
               </li>
             ))}
           </ul>
-          {multiSelect && selectedOptions.length > 0 && (
-            <div className="px-4 py-2 flex justify-between">
-              <button
-                onClick={() => {
-                  // Limpiar todas las selecciones
-                  selectedOptions.forEach(id => onOptionSelect(id));
-                  setIsOpen(false);
-                }}
-                className="text-sm text-darkBlue hover:text-navy"
-              >
-                Limpiar selección
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-sm text-darkBlue hover:text-navy"
-              >
-                Aceptar
-              </button>
-            </div>
-          )}
+          {/*{multiSelect && selectedOptions.length > 0 && (*/}
+          {/*  <div className="px-4 py-2 flex justify-between">*/}
+          {/*    <button*/}
+          {/*      onClick={() => {*/}
+          {/*        // Limpiar todas las selecciones*/}
+          {/*        selectedOptions.forEach(id => onOptionSelect(id));*/}
+          {/*        setIsOpen(false);*/}
+          {/*      }}*/}
+          {/*      className="text-sm text-darkBlue hover:text-navy"*/}
+          {/*    >*/}
+          {/*      Limpiar selección*/}
+          {/*    </button>*/}
+          {/*    <button*/}
+          {/*      onClick={() => setIsOpen(false)}*/}
+          {/*      className="text-sm text-darkBlue hover:text-navy"*/}
+          {/*    >*/}
+          {/*      Aceptar*/}
+          {/*    </button>*/}
+          {/*  </div>*/}
+          {/*)}*/}
         </div>
       )}
     </div>
