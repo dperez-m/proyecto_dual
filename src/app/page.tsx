@@ -186,7 +186,7 @@ export default function Home() {
         </div>
 
         <div className="flex justify-center">
-          <CompareButtonSecondary href="/" />
+          <CompareButtonSecondary href="/compare" />
         </div>
       </div>
     </main>

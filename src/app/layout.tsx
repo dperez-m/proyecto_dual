@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Changa, Reddit_Sans, Space_Grotesk } from "next/font/google";
 import "../styles/globals.css";
-import Image from "next/image";
 import Header from "@components/layout/header";
+import BackgroundImage from "@components/layout/BackgroundImage";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit",
@@ -36,16 +36,7 @@ export default function RootLayout({
         className={`${redditSans.variable} ${groteske.variable} ${changa.variable} antialiased`}
       >
         <Header />
-        <div className="absolute top-0 left-0 w-full h-screen -z-10 overflow-hidden">
-          <Image
-            src="/bg_img.png"
-            alt="Background Image"
-            fill
-            priority
-            className="bg-[size:100vw_auto]"
-            quality={100}
-          />
-        </div>
+        <BackgroundImage />
         {children}
       </body>
     </html>

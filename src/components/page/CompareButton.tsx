@@ -6,7 +6,7 @@ const CompareButton = () => {
   return (
     <Link
       className="relative inline-flex items-center justify-between bg-darkBlue rounded-full px-2 py-2 w-90 group overflow-hidden"
-      href="/"
+      href="/compare"
     >
       {/* Fondo azul animado */}
       <span
