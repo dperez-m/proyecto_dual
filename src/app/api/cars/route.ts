@@ -96,15 +96,15 @@ export async function GET(request: NextRequest) {
         // Procesar marcas (IN si hay múltiples)
         if (brands.length > 0) {
             const placeholders = brands.map(() => `$${paramIndex++}`).join(', ');
-            query += ` AND brand IN (${placeholders})`;
-            params.push(...brands);
+            query += ` AND LOWER(brand) IN (${placeholders})`;
+            params.push(...brands.map(b => b.toLowerCase()));
         }
 
         // Procesar categorías (IN si hay múltiples)
         if (categories.length > 0) {
             const placeholders = categories.map(() => `$${paramIndex++}`).join(', ');
-            query += ` AND category IN (${placeholders})`;
-            params.push(...categories);
+            query += ` AND LOWER(category) IN (${placeholders})`;
+            params.push(...categories.map(b => b.toLowerCase()));
         }
 
         // Procesar plazas (>=)
