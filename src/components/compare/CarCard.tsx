@@ -24,9 +24,9 @@ interface Car {
 // Configuración para los tipos de vehículo y sus colores
 const categoryColors: Record<string, string> = {
     "SUV": "#E82127",
-    "Berlina": "#3366CC",
+    "berlina": "#3366CC",
     "Crossover": "#FF9900",
-    "Compacto": "#33CC33",
+    "compacto": "#33CC33",
     "Sedan": "#9933CC",
     "Coupe": "#CC0066",
     "Furgoneta": "#808080",
