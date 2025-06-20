@@ -124,24 +124,36 @@ flowchart TD
     end
 ```
 
+
+#### Diagrama E/R de la base de datos (corregido)
+
+```markdown
+### Diagrama E/R
+
 ```mermaid
-flowchart TD
-    A[Usuario] -->|Interacción vía navegador| B[Interfaz Next.js (React + Tailwind)]
-    B --> C[API Routes / SSR]
-    C --> D[Base de datos Neon (PostgreSQL)]
+erDiagram
+    cars {
+        UUID id PK
+        TEXT brand
+        TEXT model
+        INTEGER year
+        INTEGER price
+        INTEGER battery_range
+        INTEGER usable_battery
+        INTEGER power
+        TEXT drivetrain
+        INTEGER fast_charging_power
+        TEXT category
+        INTEGER seats
+        INTEGER trunk_capacity
+        TEXT image_url
+        TIMESTAMP created_at
+    }
 
-    subgraph Frontend
-        B
-    end
+    searches {
+        INTEGER id PK
+        TEXT session_id
+        JSONB filters
+        TIMESTAMP created_at
+    }
 
-    subgraph Backend
-        C
-    end
-
-    subgraph Base de datos
-        D1[cars table]
-        D2[searches table]
-        D1 --> D
-        D2 --> D
-    end
-```
