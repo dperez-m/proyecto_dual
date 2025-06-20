@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import FilterDropdown from "../../components/compare/FilterDropdown";
 import CarCard from "../../components/compare/CarCard";
 import { Car } from '@/types/car';
+import ComparatorPanel from "@components/compare/ComparatorPanel";
 
 export default function ComparePage() {
   // Estados para los filtros (ahora como arrays para selección múltiple)
@@ -14,6 +15,8 @@ export default function ComparePage() {
   const [selectedPowers, setSelectedPowers] = useState<string[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [selectedTrunks, setSelectedTrunks] = useState<string[]>([]);
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
+
 
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(false);
@@ -396,6 +399,14 @@ export default function ComparePage() {
           </div>
         )}
       </section>
+      {selectedCars.length > 0 && (
+          <ComparatorPanel
+              selectedCars={selectedCars}
+              isOpen={isCompareOpen}
+              toggleOpen={() => setIsCompareOpen((prev) => !prev)}
+          />
+      )}
+
     </main>
   );
 }
