@@ -104,9 +104,9 @@ La aplicación sigue una arquitectura de **tres capas**:
 
 ```mermaid
 flowchart TD
-    A[Usuario] -->|Interacción vía navegador| B[Interfaz Next.js (React + Tailwind)]
-    B --> C[API Routes / SSR]
-    C --> D[Base de datos Neon (PostgreSQL)]
+    A[Usuario] -->|Interacción vía navegador| B[Interfaz Next.js - React y Tailwind]
+    B --> C[API Routes y SSR]
+    C --> D[Base de datos Neon - PostgreSQL]
 
     subgraph Frontend
         B
@@ -116,14 +116,13 @@ flowchart TD
         C
     end
 
-    subgraph Base de datos
-        D1[cars table]
-        D2[searches table]
+    subgraph Base_de_datos
+        D1[cars]
+        D2[searches]
         D1 --> D
         D2 --> D
     end
 ```
-
 
 #### Diagrama E/R de la base de datos (corregido)
 
