@@ -6,7 +6,7 @@ const Battery_03 = () => (
     width={24}
     height={24}
     fill="none"
-    stroke="currentColor"
+    stroke="black"
     strokeLinecap="round"
     strokeLinejoin="round"
     strokeWidth={2}

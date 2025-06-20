@@ -6,21 +6,7 @@ import Battery_03 from "@components/compare/icons/Battery_03";
 import Battery_04 from "@components/compare/icons/Battery_04";
 import React from "react";
 import Image from "next/image";
-
-interface Car {
-  id: string;
-  brand: string;
-  model: string;
-  price: number;
-  battery_range: number;
-  power: number;
-  category: string;
-  image_url: string;
-  drivetrain?: string;
-  seats?: number;
-  trunk_capacity?: number;
-  fast_charging_power?: number;
-}
+import { Car } from "@/types/car";
 
 // Configuración para los tipos de vehículo y sus colores
 const categoryColors: Record<string, string> = {
@@ -61,32 +47,56 @@ const getBatteryIcon = (range: number) => {
   return <Battery_04 />;
 };
 
-export default function CarCard({ car }: { car: Car }) {
+export default function CarCard({
+  car,
+  isSelected = false,
+  onToggleCompare,
+}: {
+  car: Car;
+  isSelected?: boolean;
+  onToggleCompare?: () => void;
+}) {
   const categoryColor = categoryColors[car.category] || "#777777";
   const priceRange = getPriceRange(car.price);
 
   return (
-    <div className="relative pt-7 mt-4 w-full max-w-sm mx-auto opacity-0 motion-safe:animate-[fade-in-up_0.5s_ease-out_forwards]">
-      {" "}
-      {/* Aumentado el padding-top */}
-      <div className="absolute -top-5 left-4 flex gap-2 z-10">
-        {" "}
-        {/* Posición más alta */}
-        <IconBox title={car.brand}>
-          <BrandLogo brand={car.brand} />
-        </IconBox>
-        <IconBox title={`Tipo: ${car.category}`}>
-          <CircleIcon className="w-4 h-4" fill={categoryColor} color={categoryColor} />
-        </IconBox>
-        <IconBox title={`Precio: ${car.price.toLocaleString()} €`}>
-          <div className="flex items-center justify-center font-reddit">
-            <span className="text-sm font-reddit font-bold text-navy">{priceRange}</span>
+    <div className="relative pt-7 mt-4 w-full max-w-sm mx-auto animate-fade-in-up">
+      <div className="absolute -top-5 left-0 right-0 flex justify-between items-center z-10 px-4">
+        {/* Iconos informativos a la izquierda */}
+        <div className="flex gap-2">
+          <IconBox title={car.brand}>
+            <BrandLogo brand={car.brand} />
+          </IconBox>
+
+          <IconBox title={`Tipo: ${car.category}`}>
+            <CircleIcon className="w-4 h-4" fill={categoryColor} color={categoryColor} />
+          </IconBox>
+
+          <IconBox title={`Precio: ${car.price.toLocaleString()} €`}>
+            <div className="flex items-center justify-center font-reddit">
+              <span className="text-sm font-reddit font-bold text-navy">{priceRange}</span>
+            </div>
+          </IconBox>
+
+          <IconBox title={`Batería: ${car.battery_range} km`}>
+            {getBatteryIcon(car.battery_range)}
+          </IconBox>
+        </div>
+
+        {/* Icono de selección para comparar (a la derecha) */}
+        <div
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-sm cursor-pointer hover:bg-gray-50"
+          title={isSelected ? "Seleccionado para comparar" : "Seleccionar para comparar"}
+          onClick={() => onToggleCompare && onToggleCompare()}
+        >
+          <div
+            className={`w-6 h-6 rounded-full ${isSelected ? "bg-navy" : "bg-white border border-navy"}`}
+          >
+            {/* Se ha eliminado el punto blanco del centro cuando está seleccionado */}
           </div>
-        </IconBox>
-        <IconBox title={`Batería: ${car.battery_range} km`}>
-          {getBatteryIcon(car.battery_range)}
-        </IconBox>
+        </div>
       </div>
+
       <div className="relative group rounded-2xl shadow-md bg-white overflow-hidden hover:shadow-lg transition-shadow">
         <div className="pt-8"></div> {/* Espacio blanco arriba (aumentado) */}
         <div className="relative h-48 mx-auto w-11/12">
