@@ -6,7 +6,7 @@ import Battery_03 from "@components/compare/icons/Battery_03";
 import Battery_04 from "@components/compare/icons/Battery_04";
 import React from "react";
 import Image from "next/image";
-import { Car } from '@/types/car';
+import { Car } from "@/types/car";
 
 // Configuración para los tipos de vehículo y sus colores
 const categoryColors: Record<string, string> = {
@@ -50,11 +50,11 @@ const getBatteryIcon = (range: number) => {
 export default function CarCard({
   car,
   isSelected = false,
-  onToggleCompare
+  onToggleCompare,
 }: {
-  car: Car,
-  isSelected?: boolean,
-  onToggleCompare?: () => void
+  car: Car;
+  isSelected?: boolean;
+  onToggleCompare?: () => void;
 }) {
   const categoryColor = categoryColors[car.category] || "#777777";
   const priceRange = getPriceRange(car.price);
@@ -89,7 +89,9 @@ export default function CarCard({
           title={isSelected ? "Seleccionado para comparar" : "Seleccionar para comparar"}
           onClick={() => onToggleCompare && onToggleCompare()}
         >
-          <div className={`w-6 h-6 rounded-full ${isSelected ? 'bg-navy' : 'bg-white border border-navy'}`}>
+          <div
+            className={`w-6 h-6 rounded-full ${isSelected ? "bg-navy" : "bg-white border border-navy"}`}
+          >
             {/* Se ha eliminado el punto blanco del centro cuando está seleccionado */}
           </div>
         </div>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import FilterDropdown from "../../components/compare/FilterDropdown";
 import CarCard from "../../components/compare/CarCard";
-import { Car } from '@/types/car';
+import { Car } from "@/types/car";
 import ComparatorPanel from "@components/compare/ComparatorPanel";
 
 export default function ComparePage() {
@@ -16,7 +16,6 @@ export default function ComparePage() {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [selectedTrunks, setSelectedTrunks] = useState<string[]>([]);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
-
 
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(false);
@@ -169,10 +168,10 @@ export default function ComparePage() {
 
   // Función para añadir/eliminar un coche de la selección para comparar
   const toggleCompare = (car: Car) => {
-    setSelectedCars(prev => {
+    setSelectedCars((prev) => {
       // Si el coche ya está seleccionado, lo eliminamos
       if (isCarSelected(car.id)) {
-        return prev.filter(c => c.id !== car.id);
+        return prev.filter((c) => c.id !== car.id);
       }
 
       // Si ya hay 2 coches seleccionados, no permitimos añadir más
@@ -187,7 +186,7 @@ export default function ComparePage() {
 
   // Helper para verificar si un coche está seleccionado
   const isCarSelected = (id: string): boolean => {
-    return selectedCars.some(car => car.id === id);
+    return selectedCars.some((car) => car.id === id);
   };
 
   useEffect(() => {
@@ -389,24 +388,23 @@ export default function ComparePage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
             {cars.map((car) => (
-                <CarCard
-                    key={car.id}
-                    car={car}
-                    isSelected={isCarSelected(car.id)}
-                    onToggleCompare={() => toggleCompare(car)}
-                />
+              <CarCard
+                key={car.id}
+                car={car}
+                isSelected={isCarSelected(car.id)}
+                onToggleCompare={() => toggleCompare(car)}
+              />
             ))}
           </div>
         )}
       </section>
       {selectedCars.length > 0 && (
-          <ComparatorPanel
-              selectedCars={selectedCars}
-              isOpen={isCompareOpen}
-              toggleOpen={() => setIsCompareOpen((prev) => !prev)}
-          />
+        <ComparatorPanel
+          selectedCars={selectedCars}
+          isOpen={isCompareOpen}
+          toggleOpen={() => setIsCompareOpen((prev) => !prev)}
+        />
       )}
-
     </main>
   );
 }
