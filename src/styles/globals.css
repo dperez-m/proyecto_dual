@@ -1,17 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  --background: #457B9D;
+  --background: #457b9d;
   --foreground: #171717;
 }
 
+@theme {
+  --color-green01: #f1faee;
+  --color-lime: #f1ffc4;
+  --color-skylight: #c6e2e9;
+  --color-periwinkle: #a7bed3;
+  --color-slate: #505a5b;
+  --color-charcoal: #343f3e;
+  --color-navy: #1d3557;
+  --color-darkBlue: #457b9d;
+}
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --font-reddit: var(--font-reddit);
+  --font-groteske: var(--font-groteske);
+  --font-changa: var(--font-changa);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out forwards;
+  }
 }

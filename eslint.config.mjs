@@ -23,9 +23,9 @@ const eslintConfig = [
   {
     languageOptions: {
       globals: {
-        React: "readonly"
-      }
-    }
+        React: "readonly",
+      },
+    },
   },
 
   // Configuración específica para archivos TypeScript
@@ -47,10 +47,13 @@ const eslintConfig = [
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/no-unused-vars": ["warn", {
-        argsIgnorePattern: "^_",
-        varsIgnorePattern: "^_"
-      }],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
+      ],
     },
   },
 
@@ -75,9 +78,18 @@ const eslintConfig = [
       "no-unused-expressions": "warn",
       "no-duplicate-imports": "error",
       "no-undef": "error",
-      "eqeqeq": ["error", "always", { "null": "ignore" }],
-      "curly": ["warn", "multi-line", "consistent"],
-      "max-len": ["warn", { "code": 100, "ignoreUrls": true, "ignoreStrings": true, "ignoreTemplateLiterals": true, "ignoreComments": true }]
+      eqeqeq: ["error", "always", { null: "ignore" }],
+      curly: ["warn", "multi-line", "consistent"],
+      "max-len": [
+        "warn",
+        {
+          code: 100,
+          ignoreUrls: true,
+          ignoreStrings: true,
+          ignoreTemplateLiterals: true,
+          ignoreComments: true,
+        },
+      ],
     },
   },
 
@@ -85,7 +97,7 @@ const eslintConfig = [
   {
     files: ["*.config.js", "*.config.ts", "*.config.mjs"],
     rules: {
-      "no-console": "off"
+      "no-console": "off",
     },
   },
 ];

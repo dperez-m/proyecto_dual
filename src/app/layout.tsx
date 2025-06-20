@@ -1,18 +1,24 @@
 import type { Metadata } from "next";
-import { Reddit_Sans, Space_Grotesk } from "next/font/google";
+import { Changa, Reddit_Sans, Space_Grotesk } from "next/font/google";
 import "../styles/globals.css";
-import Image from "next/image";
 import Header from "@components/layout/header";
+import BackgroundImage from "@components/layout/BackgroundImage";
 
 const redditSans = Reddit_Sans({
-    variable: "--font-reddit-sans",
-    subsets: ["latin"],
-})
+  variable: "--font-reddit",
+  subsets: ["latin"],
+});
 
 const groteske = Space_Grotesk({
-    variable: "--font-groteske",
-    subsets: ["latin"],
-})
+  variable: "--font-groteske",
+  subsets: ["latin"],
+});
+
+const changa = Changa({
+  variable: "--font-changa",
+  subsets: ["latin"],
+  weight: ["700"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,19 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${redditSans.variable} ${groteske.variable} antialiased`}
+        className={`${redditSans.variable} ${groteske.variable} ${changa.variable} antialiased`}
       >
-      <Header />
-      <div className="absolute top-0 left-0 w-full">
-          <Image
-              src="/bg_img.png"
-              alt="Background"
-              width={1920}
-              height={400}
-              className="w-full h-auto object-cover"
-              priority
-          />
-      </div>
+        <Header />
+        <BackgroundImage />
         {children}
       </body>
     </html>
