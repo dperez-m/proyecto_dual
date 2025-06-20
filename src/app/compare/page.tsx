@@ -302,12 +302,12 @@ export default function ComparePage() {
     <main className="mt-10 mx-25 mb-14">
       <section className="rounded-xl p-6 mb-8">
         <div className="flex justify-between items-center mb-4 w-full">
-          <h2 className="text-xl font-semibold">Filtros de búsqueda</h2>
+          <h2 className="text-xl font-semibold font-redit text-white">Filtros de búsqueda</h2>
 
           <div className="ml-auto relative">
             <button
                 onClick={() => setShowHistory(prev => !prev)}
-                className="text-white text-sm font-medium border-b border-darkBlue hover:border-b-2 transition-all"
+                className="text-white text-sm font-medium border-b border-darkBlue hover:border-b-2 transition-all underline"
             >
               Historial de búsqueda
             </button>
