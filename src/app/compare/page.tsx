@@ -20,7 +20,6 @@ export default function ComparePage() {
   const [recentSearches, setRecentSearches] = useState<any[]>([]);
   const [showHistory, setShowHistory] = useState(false);
 
-
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedCars, setSelectedCars] = useState<Car[]>([]);
@@ -200,7 +199,6 @@ export default function ComparePage() {
     setSelectedTrunks(filters.seats);
   };
 
-
   // Helper para verificar si un coche está seleccionado
   const isCarSelected = (id: string): boolean => {
     return selectedCars.some((car) => car.id === id);
@@ -241,20 +239,20 @@ export default function ComparePage() {
     if (!sessionId) return;
 
     const shouldSave =
-        selectedBrands.length > 0 ||
-        selectedCategories.length > 0 ||
-        selectedPrices.length > 0 ||
-        selectedRanges.length > 0 ||
-        selectedPowers.length > 0 ||
-        selectedSeats.length > 0 ||
-        selectedTrunks.length > 0;
+      selectedBrands.length > 0 ||
+      selectedCategories.length > 0 ||
+      selectedPrices.length > 0 ||
+      selectedRanges.length > 0 ||
+      selectedPowers.length > 0 ||
+      selectedSeats.length > 0 ||
+      selectedTrunks.length > 0;
 
     if (!shouldSave) return;
 
     const timeout = setTimeout(() => {
-      fetch('/api/searches', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      fetch("/api/searches", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sessionId,
           filters: {
@@ -264,15 +262,16 @@ export default function ComparePage() {
             range: selectedRanges,
             power: selectedPowers,
             seats: selectedSeats,
-            trunk: selectedTrunks
-          }
-        })
-      }).then(() => {
-        fetch(`/api/searches/recent?sessionId=${sessionId}`)
-            .then(res => res.json())
-            .then(data => setRecentSearches(data));
+            trunk: selectedTrunks,
+          },
+        }),
       })
-          .catch((err) => console.error('Error al guardar la busqueda:', err));
+        .then(() => {
+          fetch(`/api/searches/recent?sessionId=${sessionId}`)
+            .then((res) => res.json())
+            .then((data) => setRecentSearches(data));
+        })
+        .catch((err) => console.error("Error al guardar la busqueda:", err));
     }, 4000); // espera 4 segundos tras la última modificación
 
     return () => clearTimeout(timeout); // cancela si se vuelve a cambiar antes
@@ -284,19 +283,17 @@ export default function ComparePage() {
     selectedPowers,
     selectedSeats,
     selectedTrunks,
-    sessionId
+    sessionId,
   ]);
 
   useEffect(() => {
     if (!sessionId) return;
 
     fetch(`/api/searches/recent?sessionId=${sessionId}`)
-        .then(res => res.json())
-        .then(data => setRecentSearches(data))
-        .catch(err => console.error('Error al cargar busquedas recientes:', err));
+      .then((res) => res.json())
+      .then((data) => setRecentSearches(data))
+      .catch((err) => console.error("Error al cargar busquedas recientes:", err));
   }, [sessionId]);
-
-
 
   return (
     <main className="mt-10 mx-25 mb-14">
@@ -306,92 +303,91 @@ export default function ComparePage() {
 
           <div className="ml-auto relative">
             <button
-                onClick={() => setShowHistory(prev => !prev)}
-                className="text-white text-sm font-medium border-b border-darkBlue hover:border-b-2 transition-all underline"
+              onClick={() => setShowHistory((prev) => !prev)}
+              className="text-white text-sm font-medium border-b border-darkBlue hover:border-b-2 transition-all underline"
             >
               Historial de búsqueda
             </button>
 
             {showHistory && (
-                <div
-                    className="absolute right-0 mt-2 w-72 bg-white shadow-xl rounded-lg p-4 z-50"
-                    onMouseLeave={() => setShowHistory(false)}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h4 className="text-sm font-semibold text-navy">Últimas búsquedas</h4>
-                    <button
-                        onClick={async () => {
-                          await fetch(`/api/searches/clear?sessionId=${sessionId}`, { method: 'DELETE' });
-                          setRecentSearches([]);
-                        }}
-                        className="text-xs text-navy hover:underline"
-                    >
-                      Borrar historial
-                    </button>
-                  </div>
-
-                  {recentSearches.length === 0 ? (
-                      <p className="text-xs text-gray-600">No hay búsquedas recientes</p>
-                  ) : (
-                      <ul className="space-y-2 max-h-60 overflow-y-auto text-sm text-gray-800">
-                        {recentSearches.map((search, idx) => {
-                          const activeFilters = Object.entries(search.filters)
-                              .filter(([_, val]) => val &&
-                                  (Array.isArray(val) ? val.length > 0 : true))
-                              .map(([key]) => {
-                                const map: Record<string, string> = {
-                                  brand: "Marca",
-                                  category: "Categoría",
-                                  price: "Precio",
-                                  range: "Autonomía",
-                                  power: "Potencia",
-                                  seats: "Plazas",
-                                  trunk: "Maletero"
-                                };
-                                return map[key] || key;
-                              });
-
-
-                          return (
-                              <li
-                                  key={idx}
-                                  onClick={() => {
-                                    applySearch(search.filters);
-                                    setShowHistory(false);
-                                  }}
-                                  className="bg-skylight px-3 py-2 rounded-md cursor-pointer hover:bg-slate transition-colors"
-                              >
-                                <div className="text-xs font-medium text-navy mb-1">
-                                  {new Date(search.created_at).toLocaleString('es-ES', {
-                                    day: '2-digit',
-                                    month: '2-digit',
-                                    year: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    hour12: false,
-                                  })}
-                                </div>
-
-                                <div className="flex flex-wrap gap-1">
-                                  {activeFilters.map(label => (
-                                      <span
-                                          key={label}
-                                          className="bg-white text-darkBlue px-2 py-0.5 rounded-full text-[11px]"
-                                      >
-                          {label}
-                        </span>
-                                  ))}
-                                </div>
-                              </li>
-                          );
-                        })}
-                      </ul>
-                  )}
+              <div
+                className="absolute right-0 mt-2 w-72 bg-white shadow-xl rounded-lg p-4 z-50"
+                onMouseLeave={() => setShowHistory(false)}
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="text-sm font-semibold text-navy">Últimas búsquedas</h4>
+                  <button
+                    onClick={async () => {
+                      await fetch(`/api/searches/clear?sessionId=${sessionId}`, {
+                        method: "DELETE",
+                      });
+                      setRecentSearches([]);
+                    }}
+                    className="text-xs text-navy hover:underline"
+                  >
+                    Borrar historial
+                  </button>
                 </div>
+
+                {recentSearches.length === 0 ? (
+                  <p className="text-xs text-gray-600">No hay búsquedas recientes</p>
+                ) : (
+                  <ul className="space-y-2 max-h-60 overflow-y-auto text-sm text-gray-800">
+                    {recentSearches.map((search, idx) => {
+                      const activeFilters = Object.entries(search.filters)
+                        .filter(([_, val]) => val && (Array.isArray(val) ? val.length > 0 : true))
+                        .map(([key]) => {
+                          const map: Record<string, string> = {
+                            brand: "Marca",
+                            category: "Categoría",
+                            price: "Precio",
+                            range: "Autonomía",
+                            power: "Potencia",
+                            seats: "Plazas",
+                            trunk: "Maletero",
+                          };
+                          return map[key] || key;
+                        });
+
+                      return (
+                        <li
+                          key={idx}
+                          onClick={() => {
+                            applySearch(search.filters);
+                            setShowHistory(false);
+                          }}
+                          className="bg-skylight px-3 py-2 rounded-md cursor-pointer hover:bg-slate transition-colors"
+                        >
+                          <div className="text-xs font-medium text-navy mb-1">
+                            {new Date(search.created_at).toLocaleString("es-ES", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: false,
+                            })}
+                          </div>
+
+                          <div className="flex flex-wrap gap-1">
+                            {activeFilters.map((label) => (
+                              <span
+                                key={label}
+                                className="bg-white text-darkBlue px-2 py-0.5 rounded-full text-[11px]"
+                              >
+                                {label}
+                              </span>
+                            ))}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
             )}
           </div>
         </div>
-
 
         <div className="flex flex-wrap gap-2 w-full">
           <FilterDropdown
