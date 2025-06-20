@@ -196,8 +196,8 @@ export default function ComparePage() {
     setSelectedPrices(filters.price || []);
     setSelectedRanges(filters.range || []);
     setSelectedPowers(filters.power || []);
-    setSelectedSeats(filters.seats ? [filters.seats] : []);
-    setSelectedTrunks(filters.trunk ? [filters.trunk] : []);
+    setSelectedSeats(filters.seats);
+    setSelectedTrunks(filters.seats);
   };
 
 
@@ -336,7 +336,8 @@ export default function ComparePage() {
                       <ul className="space-y-2 max-h-60 overflow-y-auto text-sm text-gray-800">
                         {recentSearches.map((search, idx) => {
                           const activeFilters = Object.entries(search.filters)
-                              .filter(([_, val]) => val && (Array.isArray(val) ? val.length > 0 : true))
+                              .filter(([_, val]) => val &&
+                                  (Array.isArray(val) ? val.length > 0 : true))
                               .map(([key]) => {
                                 const map: Record<string, string> = {
                                   brand: "Marca",
