@@ -1,8 +1,12 @@
+# Comparador de Vehículos Eléctricos
+
 ## Motivación
 
 Este proyecto nace de dos intereses personales: por un lado, mi deseo de seguir aprendiendo sobre desarrollo web mediante tecnologías modernas como Next.js, Tailwind CSS y Neon, y por otro, mi afición por el mundo del automóvil, especialmente los vehículos eléctricos.
 
 Durante la reciente compra de un coche eléctrico, me encontré con lo complicado que es comparar modelos de forma clara, sin verse abrumado por tecnicismos, anuncios o procesos de navegación engorrosos. Esto me motivó a crear una herramienta sencilla, visual y transparente que facilite esa decisión a otros usuarios.
+
+---
 
 ## Demostración del funcionamiento
 
@@ -42,6 +46,8 @@ La aplicación recuerda automáticamente las búsquedas anteriores realizadas po
 
 Cada una de estas funcionalidades está alineada con los objetivos definidos en el anteproyecto, permitiendo al usuario explorar, comparar y retomar búsquedas fácilmente, sin distracciones ni anuncios.
 
+---
+
 ## Justificación de los objetivos alcanzados
 
 ### ✅ Introducción al comparador
@@ -60,6 +66,8 @@ Cada una de estas funcionalidades está alineada con los objetivos definidos en 
 
 > Todos los objetivos han sido completados. No ha sido necesario eliminar funcionalidades ni modificar el alcance original.
 
+---
+
 ## Descripción técnica
 
 ### Arquitectura
@@ -70,13 +78,17 @@ La aplicación sigue una arquitectura de **tres capas**:
 2. **Capa de lógica de negocio**: implementada con funciones server-side (SSR) y API Routes en Next.js, usando TypeScript.
 3. **Capa de acceso a datos**: conexión con una base de datos PostgreSQL alojada en Neon, mediante consultas SQL.
 
+---
+
 ### Tecnologías utilizadas
 
-| Capa | Tecnologías | Finalidad |
-|------|-------------|-----------|
-| Presentación | Next.js, React, Tailwind CSS | Renderizado de páginas, componentes visuales |
-| Lógica de negocio | API Routes, SSR, TypeScript | Procesamiento de filtros, historial, comparador |
-| Acceso a datos | PostgreSQL (Neon), SQL | Almacenamiento y recuperación de búsquedas recientes |
+| Capa            | Tecnologías                        | Finalidad                                          |
+|------------------|-------------------------------------|-----------------------------------------------------|
+| Presentación     | Next.js, React, Tailwind CSS       | Renderizado de páginas, componentes visuales       |
+| Lógica de negocio| API Routes, SSR, TypeScript        | Procesamiento de filtros, historial, comparador    |
+| Acceso a datos   | PostgreSQL (Neon), SQL             | Almacenamiento y recuperación de búsquedas         |
+
+---
 
 ### Herramientas auxiliares
 
@@ -85,6 +97,8 @@ La aplicación sigue una arquitectura de **tres capas**:
 - **Postman**: pruebas de API.
 - **GitHub**: control de versiones y despliegue.
 - **Vercel**: hosting y despliegue automático.
+
+---
 
 ### Diagrama de componentes
 
@@ -108,40 +122,26 @@ flowchart TD
         D1 --> D
         D2 --> D
     end
-    
-
----
-
-### ✅ Diagrama E/R de la base de datos
-
-Y aquí una versión sencilla en `mermaid` para representar tus dos tablas:
-
-```markdown
-### Diagrama E/R
+```
 
 ```mermaid
-erDiagram
-    cars {
-        UUID id PK
-        TEXT brand
-        TEXT model
-        INTEGER year
-        INTEGER price
-        INTEGER battery_range
-        INTEGER usable_battery
-        INTEGER power
-        TEXT drivetrain
-        INTEGER fast_charging_power
-        TEXT category
-        INTEGER seats
-        INTEGER trunk_capacity
-        TEXT image_url
-        TIMESTAMP created_at
-    }
+flowchart TD
+    A[Usuario] -->|Interacción vía navegador| B[Interfaz Next.js (React + Tailwind)]
+    B --> C[API Routes / SSR]
+    C --> D[Base de datos Neon (PostgreSQL)]
 
-    searches {
-        INTEGER id PK
-        TEXT session_id
-        JSONB filters
-        TIMESTAMP created_at
-    }
+    subgraph Frontend
+        B
+    end
+
+    subgraph Backend
+        C
+    end
+
+    subgraph Base de datos
+        D1[cars table]
+        D2[searches table]
+        D1 --> D
+        D2 --> D
+    end
+```
