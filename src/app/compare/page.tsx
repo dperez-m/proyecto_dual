@@ -5,9 +5,10 @@ import FilterDropdown from "../../components/compare/FilterDropdown";
 import CarCard from "../../components/compare/CarCard";
 import { Car } from "@/types/car";
 import ComparatorPanel from "@components/compare/ComparatorPanel";
+import useSessionId from "@/hooks/useSessionId";
 
 export default function ComparePage() {
-  // Estados para los filtros (ahora como arrays para selección múltiple)
+  // Estados para los filtros
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
@@ -16,10 +17,14 @@ export default function ComparePage() {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [selectedTrunks, setSelectedTrunks] = useState<string[]>([]);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<any[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
 
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selectedCars, setSelectedCars] = useState<Car[]>([]); // Estado para coches seleccionados
+  const [selectedCars, setSelectedCars] = useState<Car[]>([]);
+
+  const sessionId = useSessionId();
 
   // Opciones para los filtros
   const brandOptions = [
@@ -184,6 +189,16 @@ export default function ComparePage() {
     });
   };
 
+  const applySearch = (filters: any) => {
+    setSelectedBrands(filters.brand || []);
+    setSelectedCategories(filters.category || []);
+    setSelectedPrices(filters.price || []);
+    setSelectedRanges(filters.range || []);
+    setSelectedPowers(filters.power || []);
+    setSelectedSeats(filters.seats);
+    setSelectedTrunks(filters.seats);
+  };
+
   // Helper para verificar si un coche está seleccionado
   const isCarSelected = (id: string): boolean => {
     return selectedCars.some((car) => car.id === id);
@@ -220,9 +235,160 @@ export default function ComparePage() {
     selectedTrunks,
   ]);
 
+  useEffect(() => {
+    if (!sessionId) return;
+
+    const shouldSave =
+      selectedBrands.length > 0 ||
+      selectedCategories.length > 0 ||
+      selectedPrices.length > 0 ||
+      selectedRanges.length > 0 ||
+      selectedPowers.length > 0 ||
+      selectedSeats.length > 0 ||
+      selectedTrunks.length > 0;
+
+    if (!shouldSave) return;
+
+    const timeout = setTimeout(() => {
+      fetch("/api/searches", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          filters: {
+            brand: selectedBrands,
+            category: selectedCategories,
+            price: selectedPrices,
+            range: selectedRanges,
+            power: selectedPowers,
+            seats: selectedSeats,
+            trunk: selectedTrunks,
+          },
+        }),
+      })
+        .then(() => {
+          fetch(`/api/searches/recent?sessionId=${sessionId}`)
+            .then((res) => res.json())
+            .then((data) => setRecentSearches(data));
+        })
+        .catch((err) => console.error("Error al guardar la busqueda:", err));
+    }, 4000); // espera 4 segundos tras la última modificación
+
+    return () => clearTimeout(timeout); // cancela si se vuelve a cambiar antes
+  }, [
+    selectedBrands,
+    selectedCategories,
+    selectedPrices,
+    selectedRanges,
+    selectedPowers,
+    selectedSeats,
+    selectedTrunks,
+    sessionId,
+  ]);
+
+  useEffect(() => {
+    if (!sessionId) return;
+
+    fetch(`/api/searches/recent?sessionId=${sessionId}`)
+      .then((res) => res.json())
+      .then((data) => setRecentSearches(data))
+      .catch((err) => console.error("Error al cargar busquedas recientes:", err));
+  }, [sessionId]);
+
   return (
     <main className="mt-10 mx-25 mb-14">
       <section className="rounded-xl p-6 mb-8">
+        <div className="flex justify-between items-center mb-4 w-full">
+          <h2 className="text-xl font-semibold font-redit text-white">Filtros de búsqueda</h2>
+
+          <div className="ml-auto relative">
+            <button
+              onClick={() => setShowHistory((prev) => !prev)}
+              className="text-white text-sm font-medium border-b border-darkBlue hover:border-b-2 transition-all underline"
+            >
+              Historial de búsqueda
+            </button>
+
+            {showHistory && (
+              <div
+                className="absolute right-0 mt-2 w-72 bg-white shadow-xl rounded-lg p-4 z-50"
+                onMouseLeave={() => setShowHistory(false)}
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="text-sm font-semibold text-navy">Últimas búsquedas</h4>
+                  <button
+                    onClick={async () => {
+                      await fetch(`/api/searches/clear?sessionId=${sessionId}`, {
+                        method: "DELETE",
+                      });
+                      setRecentSearches([]);
+                    }}
+                    className="text-xs text-navy hover:underline"
+                  >
+                    Borrar historial
+                  </button>
+                </div>
+
+                {recentSearches.length === 0 ? (
+                  <p className="text-xs text-gray-600">No hay búsquedas recientes</p>
+                ) : (
+                  <ul className="space-y-2 max-h-60 overflow-y-auto text-sm text-gray-800">
+                    {recentSearches.map((search, idx) => {
+                      const activeFilters = Object.entries(search.filters)
+                        .filter(([_, val]) => val && (Array.isArray(val) ? val.length > 0 : true))
+                        .map(([key]) => {
+                          const map: Record<string, string> = {
+                            brand: "Marca",
+                            category: "Categoría",
+                            price: "Precio",
+                            range: "Autonomía",
+                            power: "Potencia",
+                            seats: "Plazas",
+                            trunk: "Maletero",
+                          };
+                          return map[key] || key;
+                        });
+
+                      return (
+                        <li
+                          key={idx}
+                          onClick={() => {
+                            applySearch(search.filters);
+                            setShowHistory(false);
+                          }}
+                          className="bg-skylight px-3 py-2 rounded-md cursor-pointer hover:bg-slate transition-colors"
+                        >
+                          <div className="text-xs font-medium text-navy mb-1">
+                            {new Date(search.created_at).toLocaleString("es-ES", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: false,
+                            })}
+                          </div>
+
+                          <div className="flex flex-wrap gap-1">
+                            {activeFilters.map((label) => (
+                              <span
+                                key={label}
+                                className="bg-white text-darkBlue px-2 py-0.5 rounded-full text-[11px]"
+                              >
+                                {label}
+                              </span>
+                            ))}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
         <div className="flex flex-wrap gap-2 w-full">
           <FilterDropdown
             label="Marca"

@@ -65,7 +65,7 @@ export default function ComparatorPanel({
   return (
     <div
       className={`fixed bottom-0 left-0 w-full bg-darkBlue text-white transition-all duration-500 z-50 shadow-[0_-8px_24px_rgba(0,0,0,0.35)]
- ${isOpen ? "h-[75vh]" : "h-[42px]"} rounded-t-[16rem]`}
+ ${isOpen ? "h-[90vh]" : "h-[42px]"} rounded-t-[16rem]`}
     >
       {/* Borde superior con botón circular */}
       <div className="flex items-center justify-center h-12 cursor-pointer" onClick={toggleOpen}>
@@ -81,7 +81,6 @@ export default function ComparatorPanel({
           {selectedCars.length === 2 && (
             <div className="absolute top-[20%] left-0 right-0 flex justify-center items-center z-0 pointer-events-none">
               <div className="relative flex items-center justify-center">
-                {/* Círculos concéntricos mucho más grandes y con opacidad completa */}
                 <div className="w-80 h-80 rounded-full border-2 border-white absolute"></div>
                 <div className="w-64 h-64 rounded-full border-2 border-white absolute"></div>
                 <div className="w-48 h-48 rounded-full border-2 border-white flex items-center justify-center">
