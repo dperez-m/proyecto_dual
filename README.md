@@ -127,7 +127,7 @@ flowchart TD
 
 #### Diagrama E/R de la base de datos (corregido)
 
-```markdown
+
 ### Diagrama E/R
 
 ```mermaid
@@ -156,4 +156,4 @@ erDiagram
         JSONB filters
         TIMESTAMP created_at
     }
-
+```
